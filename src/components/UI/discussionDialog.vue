@@ -14,10 +14,14 @@
 
 <script>
 export default {
-    name: "my-input",
-    time_msg: time_msg,
-    message: "new_message",
-    methods: {}
+    props: {
+        discussions: {
+            type: Array,
+            required: true,
+        },
+    },
+    methods: {
+    },
 }
 </script>
 

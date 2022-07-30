@@ -4,10 +4,19 @@
 </template>
 
 <script>
+import discussionDialog from './UI/discussionDialog.vue';
 export default {
-    data() {
-        return
-    }
+    props: {
+        discussions: {
+            type: Array,
+            required: true,
+        },
+    },
+    components: { discussionDialog },
+    methods: {
+
+    },
+
 }
 </script>
 
