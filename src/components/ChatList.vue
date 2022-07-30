@@ -1,15 +1,16 @@
 <template>
     <section class="chat">
         <div class="messages-chat" id="chatBlock">
+            <message-item />
         </div>
     </section>
 </template>
 
 <script>
+import messageItem from './UI/messageItem.vue'
 export default {
-    data() {
-        return
-    }
+    comments: { messageItem },
+    name: "chat-list",
 }
 </script>
 

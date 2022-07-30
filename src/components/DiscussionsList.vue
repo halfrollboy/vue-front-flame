@@ -1,22 +1,26 @@
 <template>
     <section class="discussions">
+        <search-input />
     </section>
 </template>
 
 <script>
-import discussionDialog from './UI/discussionDialog.vue';
+import searchInput from './UI/searchInput.vue'
+// import discussionDialog from './UI/discussionDialog.vue';
+
 export default {
+    comments: {
+        searchInput,
+    },
     props: {
         discussions: {
             type: Array,
             required: true,
         },
     },
-    components: { discussionDialog },
     methods: {
 
     },
-
 }
 </script>
 

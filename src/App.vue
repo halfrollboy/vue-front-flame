@@ -2,21 +2,21 @@
     <div class="app">
         <div class="container">
             <div class="row">
-                <chat :message="message" />
-                <discussions :discussions="discussions" />
+                <discussions-list />
+                <chat-list />
+                <!-- <discussions :discussions="discussions" /> -->
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import Chat from './components/Chat.vue'
-import Discussions from './components/Discussions.vue'
+import ChatList from './components/ChatList.vue'
+import DiscussionsList from './components/DiscussionsList.vue'
 export default {
     components: {
-        Discussions,
-        Chat,
-        Discussions
+        DiscussionsList,
+        ChatList,
     },
     data() {
         return {

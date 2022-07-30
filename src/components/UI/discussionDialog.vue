@@ -12,8 +12,10 @@
     </div>
 </template>
 
+
 <script>
 export default {
+    name: "DiscussionsDialog",
     props: {
         discussions: {
             type: Array,
