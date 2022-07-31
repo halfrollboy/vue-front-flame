@@ -5,29 +5,37 @@
             <div class="online"></div>
         </div>
         <div class="desc-contact">
-            <p class="name">{{ name }}</p>
-            <p class="message">{{ message }}</p>
+            <p class="name">{{ discussion.name }}</p>
+            <p class="message">{{ discussion.message }}</p>
         </div>
-        <div class="timer">{{ time_msg }}</div>
+        <div class="timer">{{ discussion.time }}</div>
     </div>
 </template>
 
 
 <script>
 export default {
-    name: "DiscussionsDialog",
+    name: "discussion-dialog",
     props: {
-        discussions: {
-            type: Array,
-            required: true,
-        },
-    },
-    methods: {
+        discussion: {
+            type: Object,
+            default: () => {
+
+            }
+        }
     },
 }
 </script>
 
 <style>
+.desc-contact {
+    height: 43px;
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .discussion:not(.search):hover {
     background-color: #cfcbf1;
     opacity: 85%;

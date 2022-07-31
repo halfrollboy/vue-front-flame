@@ -9,7 +9,7 @@
 
 <script>
 export default {
-
+    name: "search-input",
 }
 </script>
 
@@ -59,5 +59,10 @@ export default {
 
 .discussion .search {
     position: fixed;
+}
+
+.search {
+    position: sticky;
+    top: 0;
 }
 </style>

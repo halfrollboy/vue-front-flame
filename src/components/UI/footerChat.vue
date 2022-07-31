@@ -8,9 +8,7 @@
 
 <script>
 export default {
-    data() {
-        return
-    }
+    name: "footer-chat",
 }
 </script>
 

@@ -1,8 +1,7 @@
-import createButton from "@/components/UI/createButton.vue"
-import myInput from "@/components/UI/myInput"
-import myModal from "@/components/UI/myModal"
+import messageItem from "./messageItem.vue"
 import searchInput from "./searchInput.vue"
-
+import discussionDialog from "./discussionDialog.vue"
+import footerChat from "./footerChat.vue"
 export default [
-    createButton, myInput, myModal, searchInput
+    searchInput, messageItem, discussionDialog, footerChat
 ]

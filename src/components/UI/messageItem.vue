@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div class="responce-msg">
+        <div v-if="message.userId === 1" class="responce-msg">
             <div class="message">
                 <div class="photo"
                     style="background-image: url(https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80);">
                     <div class="online"></div>
                 </div>
-                <p class="text"> 9 pm at the bar if possible 😳</p>
+                <p class="text"> {{ message.title }}</p>
             </div>
             <p class="time"> 15h09</p>
         </div>
-        <span class="message text-only">
+        <span v-else class="message text-only">
             <div class="response">
                 <p class="text"> Hey Megan ! It's been a while 😃</p>
                 <p class="response-time time"> 15h04</p>
@@ -22,6 +22,14 @@
 <script>
 export default {
     name: "message-item",
+    props: {
+        message: {
+            type: Object,
+            default: () => {
+
+            }
+        }
+    },
 }
 </script>
 
@@ -53,5 +61,21 @@ export default {
     color: lightgrey;
     margin-bottom: 10px;
     margin-left: 85px;
+}
+
+.response-time {
+    float: right;
+    margin-right: 40px !important;
+}
+
+.response {
+    float: right;
+    margin-right: 0px !important;
+    margin-left: auto;
+    /* flexbox alignment rule */
+}
+
+.response .text {
+    background-color: #e3effd !important;
 }
 </style>
