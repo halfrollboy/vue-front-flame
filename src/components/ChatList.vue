@@ -2,7 +2,8 @@
     <section class="chat">
         <div class="messages-chat" id="chatBlock">
             <message-item v-for="message in messages" :key="message.id" :message="message" />
-            <footer-chat @click="get_message_from_back" @get_msg="send_msg_to_chat" />
+            <footer-chat @get_msg="send_msg_to_chat" />
+            <button @click="get_message_from_back"></button>
         </div>
     </section>
 </template>
@@ -56,22 +57,21 @@ export default {
     },
     methods: {
         get_message_from_back() {
-            const eventSource = new EventSource('http://localhost:8000/')
-            eventSource.onmessage = function (e) {
-                // var t = e.datanpm
-                // var newMessage = {
-                //     "userId": 2,
-                //     "id": 7,
-                //     "title": t,
-                //     "body": "тело",
-                // }
-
-                console.log(this.messages[0].body);
-                console.log(e.data);
+            var newMessage = {
+                userId: 1,
+                body: "какой-то текст"
             }
+            const eventSource = new EventSource('http://localhost:8000/')
+            eventSource.onmessage = (e) => {
+                newMessage.title = e.data
+                // console.log(this.messages[0].body);
+                console.log(newMessage)
+                this.send_msg_to_chat(newMessage)
+            }
+
         },
         send_msg_to_chat(msg) {
-            //Сюда отправлять сообщение от себя через fetch
+            //Сюда отправлять сообщение от себя через f
             this.messages.push(msg)
         }
     },

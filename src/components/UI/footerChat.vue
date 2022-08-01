@@ -37,6 +37,25 @@ export default {
             document.getElementById('msgInput').value = ''
         }
     },
+    // get_message_from_back() {
+    //     this.msg.id = Math.floor(Math.random() * 10000)
+    //     this.msg.userId = 1
+    //     this.msg.title = this.text
+    //     console.log("Click")
+    //     const eventSource = new EventSource('http://localhost:8000/')
+    //     eventSource.onmessage = function (e) {
+    //         this.msg.title = e.data.status
+    //         console.log(e.data)
+    //     }
+    //     this.msg = {
+    //         title: '',
+    //         body: '',
+    //         time: '',
+    //     }
+    //     this.msg.time = Date.now()
+    //     this.$emit('get_msg', this.msg)
+
+    // },
 }
 </script>
 
