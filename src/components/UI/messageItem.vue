@@ -12,7 +12,7 @@
         </div>
         <span v-else class="message text-only">
             <div class="response">
-                <p class="text"> Hey Megan ! It's been a while 😃</p>
+                <p class="text"> {{ message.title }}</p>
                 <p class="response-time time"> 15h04</p>
             </div>
         </span>

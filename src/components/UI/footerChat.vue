@@ -1,14 +1,42 @@
 <template>
     <div class="footer-chat">
         <i class="icon fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
-        <input type="text" class="write-message" placeholder="Type your message here">
-        <i class="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
+        <input v-bind:value="text" @input="text = $event.target.value" type="text" id="msgInput" class="write-message"
+            placeholder="Type your message here">
+        <i @click="sendMessage" class="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
     </div>
 </template>
 
 <script>
 export default {
     name: "footer-chat",
+    data() {
+        return {
+            msg: {
+                title: '',
+                body: '',
+                time: '',
+            }
+        }
+    },
+    text: '',
+    methods: {
+        sendMessage() {
+            this.msg.id = Math.floor(Math.random() * 10000)
+            this.msg.time = Date.now()
+            this.msg.title = this.text
+            this.$emit('get_msg', this.msg)
+            //Реализовать метод отправки сообщения на бэкенд
+            // console.log(this.text)
+            this.msg = {
+                title: '',
+                body: '',
+                time: '',
+            }
+            this.text = ''
+            document.getElementById('msgInput').value = ''
+        }
+    },
 }
 </script>
 

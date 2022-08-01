@@ -2,7 +2,7 @@
     <section class="chat">
         <div class="messages-chat" id="chatBlock">
             <message-item v-for="message in messages" :key="message.id" :message="message" />
-            <footer-chat />
+            <footer-chat @click="get_message_from_back" @get_msg="send_msg_to_chat" />
         </div>
     </section>
 </template>
@@ -53,7 +53,28 @@ export default {
                     "body": "ut aspernatur corporis harum nihil quis provident sequi\nmollitia nobis aliquid molestiae\nperspiciatis et ea nemo ab reprehenderit accusantium quas\nvoluptate dolores velit et doloremque molestiae"
                 },]
         }
-    }
+    },
+    methods: {
+        get_message_from_back() {
+            const eventSource = new EventSource('http://localhost:8000/')
+            eventSource.onmessage = function (e) {
+                // var t = e.datanpm
+                // var newMessage = {
+                //     "userId": 2,
+                //     "id": 7,
+                //     "title": t,
+                //     "body": "тело",
+                // }
+
+                console.log(this.messages[0].body);
+                console.log(e.data);
+            }
+        },
+        send_msg_to_chat(msg) {
+            //Сюда отправлять сообщение от себя через fetch
+            this.messages.push(msg)
+        }
+    },
 }
 </script>
 
