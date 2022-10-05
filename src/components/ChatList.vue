@@ -61,8 +61,9 @@ export default {
                 userId: 1,
                 body: "какой-то текст"
             }
-            const eventSource = new EventSource('http://localhost:8000/')
+            const eventSource = new EventSource('http://localhost:8080/sse/4ea558c3-dbbc-44f4-8a51-c58dbe962275')
             eventSource.onmessage = (e) => {
+                console.log(e)
                 newMessage.title = e.data
                 // console.log(this.messages[0].body);
                 console.log(newMessage)
