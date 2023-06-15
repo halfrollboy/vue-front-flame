@@ -1,32 +1,29 @@
 <template>
     <div class="app">
-        <div class="container">
-            <div class="row">
-                <discussions-list />
-                <chat-list />
-                <!-- <discussions :discussions="discussions" /> -->
+        <div class="str">
+            <div class="column">
+                <card-form/>
             </div>
+            <div class="column codes">
+                <event-list :events="events"/>
+            </div> 
         </div>
     </div>
 </template>
 
 <script>
-import ChatList from './components/ChatList.vue'
-import DiscussionsList from './components/DiscussionsList.vue'
+import CardForm from "@/components/CardForm.vue";
+import EventList from "@/components/EventList.vue";
 export default {
-    components: {
-        DiscussionsList,
-        ChatList,
+    components:{
+        CardForm, EventList
     },
     data() {
         return {
-            discussion: [
-                { id: 1, title: "JS the best", body: "this first body" },
-                { id: 2, title: "Second post", body: "this first body" },
-                { id: 3, title: "Third post", body: "this first body" },
-            ],
-            message: [
-                { id: 1, }
+            events: [
+                {'body':"111['sdfsdfsd']"},
+                {'body':"122['sdfsdfsd']"},
+                {'body':"133['sdfsdfsd']"},
             ],
         }
     }
@@ -34,20 +31,43 @@ export default {
 </script>
 
 <style>
-body {
-    padding: 0%;
-    background-color: #2b303f;
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
 }
 
-.container {
-    padding: 0;
-    background-color: #FFF;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    height: 100vh;
+.str{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+.column {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
 }
 
-/*Убрать полосу прокрутки для всей страницы*/
-::-webkit-scrollbar {
-    width: 0;
+.app{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
+
+.codes{
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    align-items: start;
+    align-self: flex-start;
+    background-color: rgb(240, 234, 234);
+    color:brown;
+    padding: 50px;
+    overflow: auto; 
+}
+
 </style>
