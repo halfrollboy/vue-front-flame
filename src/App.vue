@@ -3,7 +3,10 @@
         <div class="str">
             <div class="column">
                 <card-form
-                v-on:sse-event="testMethod"/>
+                v-on:sse-event="testMethod"
+                :saveCardList="saveCardList"
+                :user_id="user_id"
+                />
             </div>
             <div class="column codes">
                 <event-list :eventslist="eventslist"/>
@@ -13,7 +16,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 import CardForm from "@/components/CardForm.vue";
 import EventList from "@/components/EventList.vue";
 export default {
@@ -30,7 +33,10 @@ export default {
                 {id:2,body:"111['sdfsdfsd']"},
                 {id:3,body:"111['sdfsdfsd']"},
             ],
-            user_id: ""
+            user_id: "",
+            saveCardList:[
+                {id: "one" ,type: "bank_card",data: {last4: "4567"}},
+            ]
         }
     },
     methods:{
@@ -38,22 +44,31 @@ export default {
             console.log("Принял - ",data);
             this.eventslist.push(data);
         },
-        // fetchData() {
-        //     //Фетчим карты чтобы они отображались в интерфейсе
-        //     axios.get('https://localhost:8080/')
-        //     .then(response => {
-        //         console.log(response.data);
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //     });
-        // }
+        fetchData() {
+            //Фетчим карты чтобы они отображались в интерфейсе
+            axios.get('http://localhost:8082/method/all/'+ this.user_id)
+            .then(response => {
+                console.log(response.data);
+                this.saveCardList.push(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
     },
-    // mounted() {
-    //     setInterval(() => {
-    //         this.fetchData();
-    //     }, 5000);
-    // }
+    mounted() {
+        
+        var uuidv4 = () => {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            })};
+
+        this.user_id = uuidv4()
+        setInterval(() => {
+            this.fetchData();
+        }, 5000);
+    }
 }
 </script>
 <style>
@@ -95,5 +110,6 @@ export default {
     padding: 50px;
     overflow: auto; 
 }
+
 
 </style>

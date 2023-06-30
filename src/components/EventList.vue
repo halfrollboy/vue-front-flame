@@ -6,7 +6,7 @@
     export default {
         props:{
             eventslist:{
-                type: Array,  
+                type: Array,
                 required: true,
             }
         }
@@ -18,5 +18,4 @@
     margin-bottom: 20px;
     /* height: 30px; */
 }
-
 </style>
