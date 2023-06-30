@@ -26,53 +26,77 @@
             maxlength=3></div>
     <div class="btn"
         @click="get_message_from_back"
-        >hehe</div> 
+        >PAY</div>
 </form>
 </template>
 
 <script>
-    export default {
-        emits: ['sse-event'],
-        data(){
-            return{
-                card:{
-                    id: 0,
-                    card_number:'5555 5555 5555 4444',
-                    card_holder:'Taran Yurij',
-                    card_data:'10/23',
-                    card_cvv:'666'
-                }
+import axios from 'axios';
+export default {
+    emits: ['sse-event'],
+    data(){
+        return{
+            card:{
+                id: 0,
+                card_number:'5555 5555 5555 4444',
+                card_holder:'Taran Yurij',
+                card_data:'10/23',
+                card_cvv:'666'
             }
+        }
+    },
+    methods:{
+        sendForm(e){
+            // this.post.id = Date.now()
+            // this.card.card_number
+            console.log("[eq]",e)
         },
-        methods:{
-            sendForm(e){
-                // this.post.id = Date.now()
-                // this.card.card_number
-                console.log("[eq]",e)
-            },
-            get_message_from_back() {
-                
-                var uuidv4 = () => {
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                    return v.toString(16);
-                })};
-            
-                var url = 'http://localhost:8084/sse/sse/' + uuidv4()
-                
-                console.log(url)
-                const eventSource = new EventSource(url)
-                eventSource.addEventListener('WAHAT', event => {
-                    let jsonStr = event.data.replace(/'/g, '"');
-                    console.log(`Back cказал: ${event.data}`);
-                    console.log(typeof(event.data));
-                    console.log(event);
-                    this.$emit("sse-event", JSON.parse(jsonStr))
-                });
+        get_message_from_back() {
 
-            },
+            
+            var uuidv4 = () => {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            })};
+        
+            var url = 'http://localhost:8084/sse/sse/' + uuidv4()
+            
+            console.log(url)
+            const eventSource = new EventSource(url)
+            eventSource.addEventListener('WAHAT', event => {
+                let jsonStr = event.data.replace(/'/g, '"');
+                console.log(`Back cказал: ${event.data}`);
+                console.log(typeof(event.data));
+                console.log(event);
+                this.$emit("sse-event", JSON.parse(jsonStr))
+            });
+
+            //Здесь описываем запрос без сохранения, где читаем карту
+            axios.post('https://localhost:8080/contract', {
+                order_id: "822a3a17-5d5b-425e-af04-4a99a4d46229",
+                user_id: "f96300f2-a492-4d0f-bb16-1ec9d163bbc3",
+                card_number: "1234567890123456",
+                card_expiry_year: "24",
+                card_expiry_month: "10",
+                card_csc: "666",
+                card_cardholder: "IVAN IVANOV",
+                amount_value: 1500.123,
+                amount_currency: "RUB",
+                method: "bank_card",
+                save_payment_method: true,
+                payment_method_id: ""
+                
+            })
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
         },
-    }
+    },
+}
 </script>
 
 <style>

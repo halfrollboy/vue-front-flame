@@ -13,6 +13,7 @@
 </template>
 
 <script>
+// import axios from 'axios';
 import CardForm from "@/components/CardForm.vue";
 import EventList from "@/components/EventList.vue";
 export default {
@@ -29,14 +30,30 @@ export default {
                 {id:2,body:"111['sdfsdfsd']"},
                 {id:3,body:"111['sdfsdfsd']"},
             ],
+            user_id: ""
         }
     },
     methods:{
         testMethod(data){
             console.log("Принял - ",data);
             this.eventslist.push(data);
-        }
+        },
+        // fetchData() {
+        //     //Фетчим карты чтобы они отображались в интерфейсе
+        //     axios.get('https://localhost:8080/')
+        //     .then(response => {
+        //         console.log(response.data);
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
+        // }
     },
+    // mounted() {
+    //     setInterval(() => {
+    //         this.fetchData();
+    //     }, 5000);
+    // }
 }
 </script>
 <style>
