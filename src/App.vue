@@ -2,10 +2,11 @@
     <div class="app">
         <div class="str">
             <div class="column">
-                <card-form/>
+                <card-form
+                v-on:sse-event="testMethod"/>
             </div>
             <div class="column codes">
-                <event-list :events="events"/>
+                <event-list :eventslist="eventslist"/>
             </div> 
         </div>
     </div>
@@ -20,16 +21,24 @@ export default {
     },
     data() {
         return {
-            events: [
-                {'body':"111['sdfsdfsd']"},
-                {'body':"122['sdfsdfsd']"},
-                {'body':"133['sdfsdfsd']"},
+            eventslist: [
+                {id:1,body:"111['sdfsdfsd']"},
+                {id:2,body:"111['sdfsdfsd']"},
+                {id:3,body:"111['sdfsdfsd']"},
+                {id:1,body:"111['sdfsdfsd']"},
+                {id:2,body:"111['sdfsdfsd']"},
+                {id:3,body:"111['sdfsdfsd']"},
             ],
         }
-    }
+    },
+    methods:{
+        testMethod(data){
+            console.log("Принял - ",data);
+            this.eventslist.push(data);
+        }
+    },
 }
 </script>
-
 <style>
 *{
     margin:0;
