@@ -9,7 +9,7 @@ npm install
 ```
 npm run serve
 ```
-
+ПРИЛОЖЕНИЕ ЗАПУЩЕНО
 ### Compiles and minifies for production
 ```
 npm run build
