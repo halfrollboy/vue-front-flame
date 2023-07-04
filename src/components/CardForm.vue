@@ -1,16 +1,12 @@
 <template>
 <form class="item" @submit.prevent>
 
-    <!-- Вынести в отдельный компонент -->
-    <div class="card-save btn" 
-        v-for="cardl in saveCardList" 
-        :key="cardl.id"
-        @click="send_pay_from_save(cardl.id)"
-    > 
-        <strong><code>**** {{ cardl.data.last4 }}</code></strong>
-    </div>
-    <!-- v-for="eventl in eventslist" :key="eventl.id">{{ eventl.body }}  -->
-
+    <save-card
+        v-if="saveCardList.length>0"
+        :saveCardList="saveCardList"
+        :user_id="user_id"
+        :card="card"
+    />
     Номер карты<br>
     <input 
         v-model="card.card_number" 
@@ -56,15 +52,11 @@
 
 <script>
 import axios from 'axios';
+import saveCard from './UI/saveCard.vue'
 export default {
     emits: ['sse-event'],
-    props:{
-        saveCardList:{
-            type: Array,
-            required: true,
-        },
-        user_id: String
-    },
+    components: { saveCard },
+
     data(){
         return{
             card:{
@@ -74,37 +66,33 @@ export default {
                 card_data:'10/23',
                 card_cvv:'666',
                 save: false
-            }
-            
+            },
+            saveCardList:[
+                {id: "one" ,type: "bank_card",data: {last4: "4567"}},
+            ],
+            user_id: ""
         }
     },
     methods:{
-        sendForm(e){
-            // this.post.id = Date.now()
-            // this.card.card_number
-            console.log("[eq]",e)
-        },
-        send_pay_from_save(index){
-            var uuidv4 = () => {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            })};
-            let order = uuidv4()
-
-            console.log(index);
-            axios.post('https://localhost:8080/contract', {
-                order_id: order,
-                user_id: this.user_id,
-                card_csc: this.card.card_cvv,
-                amount_value: Math.random() * (2000.0 - 10.0) + 10.0,
-                amount_currency: "RUB",
-                method: "bank_card",
-                save_payment_method: false,
-                payment_method_id: index
-            })
+        fetchData() {
+            axios.defaults.withCredentials = true;
+            //Фетчим карты чтобы они отображались в интерфейсе
+            axios.get('http://localhost:80/api/method/all/'+ this.user_id)
             .then(response => {
-                console.log(response.data);
+                // console.log("data =>",response.data);
+                // let intersection1 = this.saveCardList.filter(x => response.data.includes(x));
+                // let intersection = response.data.filter(x => !this.saveCardList.includes(x));
+                console.log("data =>",this.saveCardList);
+                for (let i = 0; i < response.data.length; i++){
+                    for (let j = 0; j < this.saveCardList.length; j++ ){
+                        if (response.data[i].id === this.saveCardList[j].id){
+                            break
+                        }
+                        if(response.data[i].id != this.saveCardList[j].id && this.saveCardList.length - 1 === j){
+                            this.saveCardList.push(response.data[i])
+                        }
+                    }
+                }
             })
             .catch(error => {
                 console.error(error);
@@ -118,10 +106,12 @@ export default {
                 return v.toString(16);
             })};
             let order = uuidv4()
-            var url = 'http://localhost:8084/sse/sse/' + order +'/'+ this.user_id
+            console.log(process.env.VUE_APP_SSE_HOST)
+
+            var url_sse = 'http://localhost:80/sse/sse/sse/' + order +'/'+ this.user_id
             
-            console.log(url)
-            const eventSource = new EventSource(url)
+            console.log(url_sse)
+            const eventSource = new EventSource(url_sse)
             eventSource.addEventListener('WAHAT', event => {
                 let jsonStr = event.data.replace(/'/g, '"');
                 console.log(`Back cказал: ${event.data}`);
@@ -129,9 +119,25 @@ export default {
                 console.log(event);
                 this.$emit("sse-event", JSON.parse(jsonStr))
             });
-
+            
+            eventSource.addEventListener('consumer/payment_pending', event => {
+                let jsonStr = event.data.replace(/'/g, '"');
+                console.log(`Back cказал: ${event.data}`);
+                console.log(typeof(event.data));
+                console.log(event);
+                this.$emit("sse-event", JSON.parse(jsonStr))
+            });
+            
+            eventSource.addEventListener('consumer/confirmation_required', event => {
+                let jsonStr = event.data.replace(/'/g, '"');
+                console.log(`Back cказал: ${event.data}`);
+                console.log(typeof(event.data));
+                console.log(event);
+                this.$emit("sse-event", JSON.parse(jsonStr))
+            });
             //Здесь описываем запрос без сохранения, где читаем карту
-            axios.post('http://localhost:8082/contract', {
+            var url_back = 'http://localhost:80/api/contract' 
+            axios.post(url_back, {
                 order_id: order,
                 user_id: this.user_id,
                 card_number: this.card.card_number,
@@ -153,6 +159,19 @@ export default {
             });
         },
     },
+    mounted() {
+        var uuidv4 = () => {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            })};
+        console.log(process.env.VUE_APP_NOT_SECRET_CODE)
+        console.log(process.env.VUE_APP_SSE_HOST)
+        this.user_id = uuidv4()
+        setInterval(() => {
+            this.fetchData();
+        }, 10000);
+    }
 }
 </script>
 

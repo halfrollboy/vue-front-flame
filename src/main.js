@@ -1,12 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-// import components from "@/components/UI"
+import components from "@/components/UI"
 
 const app = createApp(App)
-
-// components.forEach(component => {
-//     app.component(component.name, component)
-// })
+// const cors = require('cors');
+components.forEach(component => {
+    app.component(component.name, component)
+})
 
 
 app.mount('#app')
+// app.use(cors());

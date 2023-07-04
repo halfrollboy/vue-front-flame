@@ -1,5 +1,5 @@
-// import saveCard from "./saveCard.vue"
-// export default [
-//     saveCard
-// ]
+import saveCard from "./saveCard.vue"
+export default [
+    saveCard
+]
 
