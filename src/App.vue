@@ -35,7 +35,8 @@ export default {
     methods:{
         testMethod(data){
             console.log("Принял - ",data);
-            this.eventslist.push(data);
+            let len = this.eventslist.length
+            this.eventslist.push({id:len+1, body:data.data});
         },
         
     },

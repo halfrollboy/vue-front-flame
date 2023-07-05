@@ -113,28 +113,26 @@ export default {
             console.log(url_sse)
             const eventSource = new EventSource(url_sse)
             eventSource.addEventListener('WAHAT', event => {
+                //ТЕСТОВЫЙ ЕВЕНТ
                 let jsonStr = event.data.replace(/'/g, '"');
                 console.log(`Back cказал: ${event.data}`);
                 console.log(typeof(event.data));
                 console.log(event);
-                this.$emit("sse-event", JSON.parse(jsonStr))
+                this.$emit("sse-event", {data:jsonStr})
             });
             
             eventSource.addEventListener('consumer/payment_pending', event => {
                 let jsonStr = event.data.replace(/'/g, '"');
                 console.log(`Back cказал: ${event.data}`);
-                console.log(typeof(event.data));
-                console.log(event);
-                this.$emit("sse-event", JSON.parse(jsonStr))
+                this.$emit("sse-event", {data:jsonStr})
             });
             
             eventSource.addEventListener('consumer/confirmation_required', event => {
                 let jsonStr = event.data.replace(/'/g, '"');
                 console.log(`Back cказал: ${event.data}`);
-                console.log(typeof(event.data));
-                console.log(event);
-                this.$emit("sse-event", JSON.parse(jsonStr))
+                this.$emit("sse-event", {data:jsonStr})
             });
+
             //Здесь описываем запрос без сохранения, где читаем карту
             var url_back = 'http://localhost:80/api/contract' 
             axios.post(url_back, {
