@@ -44,6 +44,39 @@ export default {
                 amount_currency: "RUB",
                 payment_method_id: index
             });
+            console.log(process.env.VUE_APP_SSE_HOST)
+
+            var url_sse = 'http://localhost:80/sse/sse/sse/' + order +'/'+ this.user_id
+
+            console.log(url_sse)
+            const eventSource = new EventSource(url_sse)
+            eventSource.addEventListener('WAHAT', event => {
+                //ТЕСТОВЫЙ ЕВЕНТ
+                let jsonStr = event.data.replace(/'/g, '"');
+                console.log(`Back cказал: ${event.data}`);
+                console.log(typeof(event.data));
+                console.log(event);
+                this.$emit("sse-event", {data:jsonStr})
+            });
+
+            eventSource.addEventListener('consumer/payment_pending', event => {
+                let jsonStr = event.data.replace(/'/g, '"');
+                console.log(`Back cказал: ${event.data}`);
+                this.$emit("sse-event", {data:jsonStr})
+            });
+
+            eventSource.addEventListener('consumer/confirmation_required', event => {
+                let jsonStr = event.data.replace(/'/g, '"');
+                console.log(`Back cказал: ${event.data}`);
+                this.$emit("sse-event", {data:jsonStr})
+            });
+
+            eventSource.addEventListener('consumer/completed', event => {
+                let jsonStr = event.data.replace(/'/g, '"');
+                console.log(`Back cказал: ${event.data}`);
+                this.$emit("sse-event", {data:jsonStr})
+            });
+
             axios.post('http://localhost:80/api/contract', {
                 order_id: order,
                 user_id: this.user_id,

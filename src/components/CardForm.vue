@@ -6,6 +6,7 @@
         :saveCardList="saveCardList"
         :user_id="user_id"
         :card="card"
+        v-on:sse-event="testMethod"
     />
     Номер карты<br>
     <input 
@@ -74,6 +75,9 @@ export default {
         }
     },
     methods:{
+        testMethod(data){
+            this.$emit("sse-event", data);
+        },
         fetchData() {
             axios.defaults.withCredentials = true;
             //Фетчим карты чтобы они отображались в интерфейсе
@@ -132,7 +136,7 @@ export default {
                 console.log(`Back cказал: ${event.data}`);
                 this.$emit("sse-event", {data:jsonStr})
             });
-            
+
             eventSource.addEventListener('consumer/completed', event => {
                 let jsonStr = event.data.replace(/'/g, '"');
                 console.log(`Back cказал: ${event.data}`);
