@@ -23,12 +23,12 @@ export default {
     data() {
         return {
             eventslist: [
-                {id:1,body:"111['sdfsdfsd']"},
-                {id:2,body:"111['sdfsdfsd']"},
-                {id:3,body:"111['sdfsdfsd']"},
-                {id:1,body:"111['sdfsdfsd']"},
-                {id:2,body:"111['sdfsdfsd']"},
-                {id:3,body:"111['sdfsdfsd']"},
+                {id:1,body:""},
+                {id:2,body:""},
+                {id:3,body:""},
+                {id:1,body:""},
+                {id:2,body:""},
+                {id:3,body:""},
             ],
         }
     },
