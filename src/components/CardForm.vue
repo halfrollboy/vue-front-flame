@@ -132,7 +132,13 @@ export default {
                 console.log(`Back cказал: ${event.data}`);
                 this.$emit("sse-event", {data:jsonStr})
             });
-
+            
+            eventSource.addEventListener('consumer/completed', event => {
+                let jsonStr = event.data.replace(/'/g, '"');
+                console.log(`Back cказал: ${event.data}`);
+                this.$emit("sse-event", {data:jsonStr})
+            });
+            
             //Здесь описываем запрос без сохранения, где читаем карту
             var url_back = 'http://localhost:80/api/contract' 
             axios.post(url_back, {
